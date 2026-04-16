@@ -57,11 +57,11 @@ specify preset resolve plan-template
 
 ### Paso 3: Ejercitar el preset con el flujo SDD
 
-Ejecuta `/speckit.specify` describiendo: "Add a health-check endpoint that returns 200 OK with a JSON body containing service name and uptime."
+Ejecuta `/speckit.specify` describiendo: "*Agrega un endpoint de health-check que devuelva 200 OK con un cuerpo JSON que contenga el nombre del servicio y el tiempo de actividad (uptime).*"
 
 Luego ejecuta `/speckit.plan`.
 
-**Verificación**: El `spec.md` generado debe contener la sección **"Verifiable Acceptance Criteria"** y el `plan.md` debe contener la tabla **"Key Decisions"**.
+**Verificación**: El `spec.md` generado debe contener la sección **"Verifiable Acceptance Criteria"**, y el `plan.md` debe contener la tabla **"Key Decisions"**.
 
 ## Parte 2: Extensiones — Agregar comandos
 
@@ -77,7 +77,7 @@ my-ext/
 ├── README.md                       # Documentación
 ├── LICENSE                         # Licencia
 ├── templates/
-│   └── spec-template.md            # Plantilla con sección Risk Assessment
+│   └── spec-template.md            # Plantilla modificada
 ├── commands/
 │   ├── dotnet.quickcheck.md        # Comando de verificación .NET
 │   └── python.quickcheck.md        # Comando de verificación Python
@@ -114,14 +114,14 @@ Ejecuta en el chat del agente:
 
 Apunta al proyecto de ejemplo en `exercises/extensions/my-ext/sample/csharp/`.
 
-**Salida esperada**:
+**Ejemplo de salida esperada**:
 
 ```text
 ## .NET Quick Check Report
 
-**Project**: Sample.sln
+**Project**: <nombre de la solución>.sln
 **Build**: PASS
-**Tests**: 1 passed / 0 failed / 0 skipped
+**Tests**: ... passed / 0 failed / 0 skipped
 **Result**: PASS
 ```
 
@@ -135,90 +135,16 @@ Ejecuta en el chat del agente:
 
 Apunta al proyecto de ejemplo en `exercises/extensions/my-ext/sample/python/`.
 
-**Salida esperada**:
+**Ejemplo de salida esperada**:
 
 ```text
 ## Python Quick Check Report
 
-**Project**: sample-greeter
+**Project**: <nombre del proyecto>
 **Install**: PASS
-**Tests**: 1 passed / 0 failed / 0 skipped
+**Tests**: ... passed / 0 failed / 0 skipped
 **Result**: PASS
 ```
-
-## Parte 3: Pila de prioridad de resolución de plantillas (FR-016)
-
-Spec Kit resuelve plantillas siguiendo una pila de 4 capas de prioridad:
-
-```text
-1. Overrides (local)     → .specify/overrides/templates/
-2. Presets                → Presets instalados (por prioridad)
-3. Extensions             → Extensiones instaladas
-4. Core                   → Plantillas base de Spec Kit
-```
-
-La capa con mayor prioridad gana. Vamos a demostrarlo paso a paso.
-
-### Paso 1: Estado actual (preset + extensión instalados)
-
-```bash
-specify preset resolve spec-template
-```
-
-**Resultado**: La plantilla incluye la sección **"Verifiable Acceptance Criteria"** del preset (capa 2 gana sobre capa 3).
-
-### Paso 2: Crear un override local (capa 1)
-
-El archivo `.specify/overrides/templates/spec-template.md` ya existe en el repositorio. Incluye un **"Project Banner"** como encabezado.
-
-```bash
-specify preset resolve spec-template
-```
-
-**Resultado**: La plantilla ahora muestra el **"Project Banner"** del override local (capa 1 gana sobre todas).
-
-### Paso 3: Eliminar el override local
-
-Elimina o renombra el archivo de override:
-
-```bash
-mv .specify/overrides/templates/spec-template.md .specify/overrides/templates/spec-template.md.bak
-```
-
-```bash
-specify preset resolve spec-template
-```
-
-**Resultado**: La plantilla vuelve a mostrar la sección **"Verifiable Acceptance Criteria"** del preset (capa 2).
-
-### Paso 4: Eliminar el preset (rollback)
-
-```bash
-specify preset remove dotnet-workshop-lite
-specify preset list
-specify preset resolve spec-template
-```
-
-**Resultado**: `specify preset list` ya no muestra el preset. La plantilla ahora muestra la sección **"Risk Assessment"** de la extensión (capa 3).
-
-### Paso 5: Eliminar la extensión (rollback)
-
-```bash
-specify extension remove my-ext
-specify extension list
-specify preset resolve spec-template
-```
-
-**Resultado**: `specify extension list` ya no muestra la extensión. Los comandos `/speckit.my-ext.dotnet-quickcheck` y `/speckit.my-ext.python-quickcheck` ya no están disponibles. La plantilla resuelve a la plantilla **core** de Spec Kit (capa 4).
-
-## Resumen de la pila de prioridad
-
-| Paso | Capa activa | Sección visible | Comando de verificación |
-|------|-------------|----------------|------------------------|
-| Override instalado | 1. Overrides | Project Banner | `specify preset resolve spec-template` |
-| Override eliminado | 2. Presets | Verifiable Acceptance Criteria | `specify preset resolve spec-template` |
-| Preset eliminado | 3. Extensions | Risk Assessment | `specify preset resolve spec-template` |
-| Extensión eliminada | 4. Core | Plantilla base | `specify preset resolve spec-template` |
 
 ## Criterios de éxito
 
@@ -227,5 +153,3 @@ specify preset resolve spec-template
 - [ ] La extensión se instala y aparece en `specify extension list`
 - [ ] `/speckit.my-ext.dotnet-quickcheck` produce un reporte PASS contra el proyecto C# de ejemplo
 - [ ] `/speckit.my-ext.python-quickcheck` produce un reporte PASS contra el proyecto Python de ejemplo
-- [ ] La pila de prioridad de 4 capas fue verificada paso a paso
-- [ ] El rollback elimina preset y extensión sin residuos
