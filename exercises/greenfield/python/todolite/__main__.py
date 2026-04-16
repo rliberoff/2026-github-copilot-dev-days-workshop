@@ -51,6 +51,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "list":
         items = app.list(open_only=args.open_only)
+        if not items and args.open_only:
+            print("No open tasks found.")
+            return 0
         for item in items:
             check = "x" if item.is_done else " "
             print(f"[{check}] {item.id:3}  {item.text}")
