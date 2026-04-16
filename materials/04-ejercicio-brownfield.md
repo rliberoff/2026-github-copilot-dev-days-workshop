@@ -167,7 +167,7 @@ dotnet build
 dotnet test
 ```
 
-Los 9 tests deben pasar (incluyendo los tests de búsqueda).
+Los tests deben pasar (incluyendo los tests de búsqueda).
 
 Para probar manualmente, inicia el servidor:
 
@@ -201,7 +201,7 @@ pip install -e ".[dev]"
 pytest
 ```
 
-Los 9 tests deben pasar.
+Los tests deben pasar.
 
 Para probar manualmente:
 
