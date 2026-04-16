@@ -1,6 +1,6 @@
 {
   "integration": "copilot",
-  "version": "0.6.2.dev0",
+  "version": "0.7.1.dev0",
   "scripts": {
     "update-context": ".specify/integrations/copilot/scripts/update-context.ps1"
   }

@@ -1,0 +1,35 @@
+schema_version: "1.0"
+
+preset:
+  id: dotnet-workshop-lite
+  name: ".NET Workshop Lite Preset"
+  version: "1.0.0"
+  description: >
+    A lightweight Spec Kit preset for .NET workshop exercises.
+    Adds a "Verifiable Acceptance Criteria" section to spec templates
+    and a "Key Decisions" table to plan templates.
+  author: Workshop Team
+
+requires:
+  speckit_version: ">=0.6.0"
+
+provides:
+  templates:
+    - type: template
+      name: spec-template
+      file: templates/spec-template.md
+      description: "Spec template with Verifiable Acceptance Criteria section"
+    - type: template
+      name: plan-template
+      file: templates/plan-template.md
+      description: "Plan template with Key Decisions table"
+    - type: command
+      name: speckit.plan
+      file: commands/speckit.plan.md
+      description: "Generate an implementation plan with a Key Decisions table"
+      replaces: speckit.plan
+
+tags:
+  - "dotnet"
+  - "workshop"
+  - "lite"

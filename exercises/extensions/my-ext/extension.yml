@@ -1,0 +1,34 @@
+schema_version: "1.0"
+
+extension:
+  id: my-ext
+  name: "Workshop Quick Check Extension"
+  version: "1.0.0"
+  description: >
+    A Spec Kit extension that adds dotnet.quickcheck and python.quickcheck
+    slash commands for rapid project verification. Also provides a
+    "Risk Assessment" spec template section.
+  author: Workshop Team
+
+requires:
+  speckit_version: ">=0.6.0"
+
+provides:
+  commands:
+    - name: speckit.my-ext.dotnet-quickcheck
+      file: commands/dotnet.quickcheck.md
+      description: "Run dotnet build and dotnet test against the current .NET project and report a pass/fail summary"
+    - name: speckit.my-ext.python-quickcheck
+      file: commands/python.quickcheck.md
+      description: "Run pip install and pytest against the current Python project and report a pass/fail summary"
+  templates:
+    - type: template
+      name: spec-template
+      file: templates/spec-template.md
+      description: "Spec template with Risk Assessment section"
+
+tags:
+  - "quickcheck"
+  - "dotnet"
+  - "python"
+  - "workshop"

@@ -1,0 +1,12 @@
+[project]
+name = "sample-greeter"
+version = "0.1.0"
+description = "A minimal sample project for the Spec Kit extension quickcheck command"
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"

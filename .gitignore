@@ -477,3 +477,22 @@ terraform.rc
 # Ignore the input and output folders for doc generation since they are usually used to store source markdown files for generating documents, and they should not need to be tracked in version control
 **/input/
 **/output/
+
+##################################################################################
+## Python
+##################################################################################
+*.egg-info/
+dist/
+.pytest_cache/
+.venv/
+venv/
+
+##################################################################################
+## C# Language Server cache
+##################################################################################
+*.lscache
+
+##################################################################################
+## Workshop runtime data
+##################################################################################
+todolite.json
