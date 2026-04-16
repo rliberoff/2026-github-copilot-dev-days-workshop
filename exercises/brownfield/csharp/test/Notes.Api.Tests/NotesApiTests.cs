@@ -84,42 +84,4 @@ public sealed class NotesApiTests : IClassFixture<WebApplicationFactory<Program>
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
-    [Fact]
-    public async Task SearchByText_ReturnsMatchingNotes()
-    {
-        await client.PostAsJsonAsync("/notes", new { title = "Buy milk", body = "Semi-skimmed" });
-        await client.PostAsJsonAsync("/notes", new { title = "Read book", body = "Fiction" });
-
-        var response = await client.GetAsync("/notes/search?q=milk");
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-        var result = await response.Content.ReadFromJsonAsync<JsonElement>();
-        Assert.True(result.GetProperty("count").GetInt32() >= 1);
-    }
-
-    [Fact]
-    public async Task SearchByTag_ReturnsMatchingNotes()
-    {
-        await client.PostAsJsonAsync("/notes", new { title = "Tagged note", tags = new[] { "groceries" } });
-
-        var response = await client.GetAsync("/notes/search?tag=groceries");
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-        var result = await response.Content.ReadFromJsonAsync<JsonElement>();
-        Assert.True(result.GetProperty("count").GetInt32() >= 1);
-    }
-
-    [Fact]
-    public async Task SearchCombined_ReturnsCorrectResults()
-    {
-        await client.PostAsJsonAsync("/notes", new { title = "Buy milk", body = "Semi-skimmed", tags = new[] { "groceries" } });
-        await client.PostAsJsonAsync("/notes", new { title = "Buy bread", tags = new[] { "groceries" } });
-        await client.PostAsJsonAsync("/notes", new { title = "Buy milk chocolate", tags = new[] { "sweets" } });
-
-        var response = await client.GetAsync("/notes/search?q=milk&tag=groceries");
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-        var result = await response.Content.ReadFromJsonAsync<JsonElement>();
-        Assert.True(result.GetProperty("count").GetInt32() >= 1);
-    }
 }

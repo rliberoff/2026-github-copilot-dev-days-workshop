@@ -1,6 +1,7 @@
 # Ejercicio Greenfield: TodoLite CLI
 
 **Duración estimada**: 45 minutos
+
 **Objetivo**: Construir una aplicación desde cero usando el flujo completo de SDD con Spec Kit.
 
 ## Premisa del escenario
@@ -169,8 +170,6 @@ Ejecuta:
 ```text
 /speckit.implement
 ```
-
-O sigue las tareas manualmente usando el código de referencia como guía.
 
 ## Verificación
 

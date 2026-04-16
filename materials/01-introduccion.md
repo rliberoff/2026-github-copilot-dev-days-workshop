@@ -1,6 +1,7 @@
 # Introducción al Desarrollo Guiado por Especificaciones
 
 **Duración estimada**: 15 minutos
+
 **Objetivo**: Comprender qué es SDD, la distinción entre spec y plan, y el flujo principal de Spec Kit.
 
 ## ¿Qué es GitHub Spec Kit?

@@ -62,37 +62,3 @@ def test_get_note_by_id_returns_200(client):
 def test_get_note_by_id_not_found_returns_404(client):
     response = client.get("/notes/00000000-0000-0000-0000-000000000000")
     assert response.status_code == 404
-
-
-def test_search_by_text_returns_matching_notes(client):
-    client.post("/notes", json={"title": "Buy milk", "body": "Semi-skimmed"})
-    client.post("/notes", json={"title": "Read book", "body": "Fiction"})
-
-    response = client.get("/notes/search?q=milk")
-    assert response.status_code == 200
-    result = response.get_json()
-    assert result["count"] >= 1
-    assert all("milk" in item["title"].lower() or "milk" in item["body"].lower() for item in result["items"])
-
-
-def test_search_by_tag_returns_matching_notes(client):
-    client.post("/notes", json={"title": "Tagged note", "tags": ["groceries"]})
-
-    response = client.get("/notes/search?tag=groceries")
-    assert response.status_code == 200
-    result = response.get_json()
-    assert result["count"] >= 1
-
-
-def test_search_combined_returns_correct_results(client):
-    client.post("/notes", json={"title": "Buy milk", "body": "Semi-skimmed", "tags": ["groceries"]})
-    client.post("/notes", json={"title": "Buy bread", "tags": ["groceries"]})
-    client.post("/notes", json={"title": "Buy milk chocolate", "tags": ["sweets"]})
-
-    response = client.get("/notes/search?q=milk&tag=groceries")
-    assert response.status_code == 200
-    result = response.get_json()
-    assert result["count"] >= 1
-    for item in result["items"]:
-        assert "milk" in item["title"].lower() or "milk" in item["body"].lower()
-        assert "groceries" in item["tags"]

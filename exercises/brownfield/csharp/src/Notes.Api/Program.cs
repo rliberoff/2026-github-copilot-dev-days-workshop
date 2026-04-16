@@ -53,33 +53,6 @@ app.MapPost("/notes", (CreateNoteRequest request) =>
     return Results.Created($"/notes/{id}", note);
 });
 
-// GET /notes/search — Search notes
-app.MapGet("/notes/search", (string? q, string? tag) =>
-{
-    var results = store.Values.AsEnumerable();
-
-    if (!string.IsNullOrWhiteSpace(q))
-    {
-        results = results.Where(n =>
-            n.Title.Contains(q, StringComparison.OrdinalIgnoreCase) ||
-            n.Body.Contains(q, StringComparison.OrdinalIgnoreCase));
-    }
-
-    if (!string.IsNullOrWhiteSpace(tag))
-    {
-        var normalizedTag = tag.Trim().ToLowerInvariant();
-        results = results.Where(n => n.Tags.Contains(normalizedTag));
-    }
-
-    var items = results.OrderByDescending(n => n.CreatedAtUtc).ToList();
-
-    return Results.Ok(new SearchResult(
-        q,
-        tag?.Trim().ToLowerInvariant(),
-        items.Count,
-        items));
-});
-
 app.Run();
 
 static List<string> NormalizeTags(List<string>? tags)
@@ -114,15 +87,6 @@ public sealed record CreateNoteRequest(
     string? Title,
     string? Body,
     List<string>? Tags);
-
-/// <summary>
-/// Result DTO for the search endpoint.
-/// </summary>
-public sealed record SearchResult(
-    string? Query,
-    string? Tag,
-    int Count,
-    List<Note> Items);
 
 /// <summary>
 /// Entry point marker for WebApplicationFactory test support.

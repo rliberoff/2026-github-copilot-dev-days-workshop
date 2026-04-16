@@ -90,29 +90,4 @@ def create_app() -> Flask:
         response.headers["Location"] = f"/notes/{note_id}"
         return response
 
-    @app.get("/notes/search")
-    def search_notes():
-        q = request.args.get("q", "").strip()
-        tag = request.args.get("tag", "").strip().lower()
-
-        results = list(store.values())
-
-        if q:
-            results = [
-                n for n in results
-                if q.lower() in n.title.lower() or q.lower() in n.body.lower()
-            ]
-
-        if tag:
-            results = [n for n in results if tag in n.tags]
-
-        results.sort(key=lambda n: n.created_at_utc, reverse=True)
-
-        return jsonify({
-            "query": q if q else None,
-            "tag": tag if tag else None,
-            "count": len(results),
-            "items": [n.to_dict() for n in results],
-        })
-
     return app

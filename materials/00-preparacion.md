@@ -1,6 +1,7 @@
 # Preparación del Entorno
 
 **Duración estimada**: 5 minutos
+
 **Objetivo**: Verificar que todas las herramientas necesarias están instaladas y funcionando antes de comenzar los ejercicios.
 
 ## Requisitos compartidos (todos los participantes)

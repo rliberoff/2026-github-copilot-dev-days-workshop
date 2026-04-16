@@ -1,6 +1,7 @@
 # Extensiones y Presets
 
 **Duración estimada**: 25 minutos
+
 **Objetivo**: Aprender a personalizar Spec Kit mediante presets (plantillas) y extensiones (comandos), y comprender la pila de prioridad de resolución de plantillas.
 
 ## Requisitos previos
@@ -20,7 +21,7 @@ Un preset es un paquete de personalización que modifica las plantillas de Spec 
 dotnet-workshop-lite-preset/
 ├── preset.yml              # Manifiesto
 ├── README.md               # Documentación
-├── LICENSE                  # Licencia
+├── LICENSE                 # Licencia
 ├── templates/
 │   ├── spec-template.md    # Plantilla de spec personalizada
 │   └── plan-template.md    # Plantilla de plan personalizada
@@ -36,14 +37,21 @@ specify preset add --dev exercises/presets/dotnet-workshop-lite-preset --priorit
 
 ### Paso 2: Verificar la instalación
 
+**`specify preset list`** muestra todos los presets registrados en el proyecto actual junto con su nombre, versión y prioridad numérica. Una prioridad más baja indica mayor precedencia: un preset con prioridad 1 gana a uno con prioridad 5 cuando ambos definen la misma plantilla. Úsalo para confirmar que `dotnet-workshop-lite-preset` aparece en la lista con la prioridad 5 asignada en el paso anterior.
+
 ```bash
-# Listar presets instalados
 specify preset list
+```
 
-# Resolver la plantilla de spec — debe incluir "Verifiable Acceptance Criteria"
+**`specify preset resolve spec-template`** recorre la pila de prioridad de resolución de plantillas (overrides → presets → extensiones → core) y devuelve el contenido final de `spec-template` tal como lo usaría `/speckit.specify` en tiempo de ejecución. No genera ningún archivo: solo muestra en pantalla la plantilla resultante de la fusión. Con el preset activo, la salida debe incluir la sección **"Verifiable Acceptance Criteria"**, que el preset inyecta sobre la plantilla core de Spec Kit.
+
+```bash
 specify preset resolve spec-template
+```
 
-# Resolver la plantilla de plan — debe incluir "Key Decisions"
+**`specify preset resolve plan-template`** aplica la misma lógica de resolución para la plantilla `plan-template` utilizada por `/speckit.plan`. Con el preset activo, la salida debe contener la tabla **"Key Decisions"**, que el preset añade para que el agente registre las decisiones de diseño y arquitectura más relevantes del ciclo de planificación.
+
+```bash
 specify preset resolve plan-template
 ```
 
@@ -53,7 +61,7 @@ Ejecuta `/speckit.specify` describiendo: "Add a health-check endpoint that retur
 
 Luego ejecuta `/speckit.plan`.
 
-**Verificación**: El spec generado debe contener la sección **"Verifiable Acceptance Criteria"** y el plan debe contener la tabla **"Key Decisions"**.
+**Verificación**: El `spec.md` generado debe contener la sección **"Verifiable Acceptance Criteria"** y el `plan.md` debe contener la tabla **"Key Decisions"**.
 
 ## Parte 2: Extensiones — Agregar comandos
 
@@ -100,7 +108,7 @@ specify extension info my-ext
 
 Ejecuta en el chat del agente:
 
-```
+```bash
 /speckit.my-ext.dotnet-quickcheck
 ```
 
@@ -108,7 +116,7 @@ Apunta al proyecto de ejemplo en `exercises/extensions/my-ext/sample/csharp/`.
 
 **Salida esperada**:
 
-```
+```text
 ## .NET Quick Check Report
 
 **Project**: Sample.sln
@@ -121,7 +129,7 @@ Apunta al proyecto de ejemplo en `exercises/extensions/my-ext/sample/csharp/`.
 
 Ejecuta en el chat del agente:
 
-```
+```bash
 /speckit.my-ext.python-quickcheck
 ```
 
@@ -129,7 +137,7 @@ Apunta al proyecto de ejemplo en `exercises/extensions/my-ext/sample/python/`.
 
 **Salida esperada**:
 
-```
+```text
 ## Python Quick Check Report
 
 **Project**: sample-greeter
@@ -142,7 +150,7 @@ Apunta al proyecto de ejemplo en `exercises/extensions/my-ext/sample/python/`.
 
 Spec Kit resuelve plantillas siguiendo una pila de 4 capas de prioridad:
 
-```
+```text
 1. Overrides (local)     → .specify/overrides/templates/
 2. Presets                → Presets instalados (por prioridad)
 3. Extensions             → Extensiones instaladas
