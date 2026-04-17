@@ -81,6 +81,12 @@ Reserva `(NON-NEGOTIABLE)` para lo que realmente no es negociable. Abusar del ma
 
 > *Quiero crear la constitución para TodoLite, una CLI mínima de gestión de tareas que soporta los comandos \`add\`, \`list\`, \`done\` y \`rm\`. Los principios del proyecto son: el código debe ser siempre ejecutable y estar cubierto por tests automatizados; la persistencia de datos debe realizarse en un archivo JSON (por defecto \`todolite.json\`, configurable mediante \`--file\`); el proyecto debe seguir las convenciones estándar del lenguaje* `<elige entre Python o C#>` *y las operaciones deben tener códigos de salida claros: 0 para éxito, 1 para recurso no encontrado y 2 para error de uso.*
 
+Es decir:
+
+```text
+/speckit.constitution Quiero crear la constitución para TodoLite, una CLI mínima de gestión de tareas que soporta los comandos `add`, `list`, `done` y `rm`. Los principios del proyecto son: el código debe ser siempre ejecutable y estar cubierto por tests automatizados; la persistencia de datos debe realizarse en un archivo JSON (por defecto `todolite.json`, configurable mediante `--file`); el proyecto debe seguir las convenciones estándar del lenguaje <elige entre Python o C#> y las operaciones deben tener códigos de salida claros: 0 para éxito, 1 para recurso no encontrado y 2 para error de uso.
+```
+
 **Artefacto esperado**: `constitution.md` en el directorio raíz del proyecto.
 
 ### 4. Crear la especificación
@@ -94,6 +100,12 @@ Ejecuta:
 Describe el escenario:
 
 > "Construir una CLI mínima de tareas llamada TodoLite que soporte los comandos add, list (con filtro --open), done y rm. La persistencia debe ser en un archivo JSON (por defecto todolite.json, configurable con --file). Códigos de salida: 0 éxito, 1 no encontrado, 2 error de uso."
+
+Es decir:
+
+```text
+/speckit.specify Construir una CLI mínima de tareas llamada TodoLite que soporte los comandos add, list (con filtro --open), done y rm. La persistencia debe ser en un archivo JSON (por defecto todolite.json, configurable con --file). Códigos de salida: 0 éxito, 1 no encontrado, 2 error de uso.
+```
 
 **Artefacto esperado**: `spec.md` con requisitos funcionales, escenarios de aceptación y criterios de éxito.
 

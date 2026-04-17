@@ -9,11 +9,14 @@
 | Herramienta | Versión mínima | Comando de verificación | Instalación |
 | :---: | :---: | :--- | :--- |
 | Git | 2.x | `git --version` | [git-scm.com](https://git-scm.com/downloads) |
+| PowerShell | 7.x | `pwsh --version` | Ver instrucciones abajo |
 | Python | 3.11+ | `python --version` | [python.org](https://www.python.org/downloads/) |
 | uv | última | `uv --version` | Ver instrucciones abajo |
 | specify CLI | 0.6.x+ | `specify version` | `uv tool install specify-cli` |
 | VS Code | última | Abre VS Code | [code.visualstudio.com](https://code.visualstudio.com/) |
 | GitHub Copilot | última | Icono de Copilot en la barra lateral de VS Code | Extensión de VS Code Marketplace |
+
+> **Importante para Windows**: Los comandos de este taller deben ejecutarse en **PowerShell 7 (`pwsh`)**. No uses **Windows PowerShell 5.1 (`powershell.exe`)**, que suele venir preinstalado por defecto en Windows.
 
 ## Requisitos por lenguaje
 
@@ -28,13 +31,81 @@ Cada participante debe verificar el runtime del lenguaje que haya elegido para l
 
 ## Instrucciones de instalación
 
+### PowerShell 7 (requerido en Windows)
+
+Esta sección aplica a participantes de Windows. Usa uno de los siguientes métodos oficiales.
+
+#### Método recomendado (winget)
+
+1. Abre **Windows Terminal** (o `cmd`) como usuario normal.
+2. Verifica que `winget` esté disponible:
+
+```powershell
+winget --version
+```
+
+1. Busca el paquete oficial:
+
+```powershell
+winget search --id Microsoft.PowerShell
+```
+
+1. Instala PowerShell 7 estable:
+
+```powershell
+winget install --id Microsoft.PowerShell --source winget
+```
+
+1. Cierra y vuelve a abrir la terminal.
+2. Verifica la instalación:
+
+```powershell
+pwsh --version
+```
+
+Debes ver una versión `7.x`.
+
+#### Método alternativo (instalador MSI oficial)
+
+Si no tienes `winget`, usa el instalador MSI desde el release oficial de PowerShell:
+
+1. Entra a [PowerShell Releases](https://github.com/PowerShell/PowerShell/releases/latest).
+2. Descarga el MSI de tu arquitectura:
+   - `PowerShell-*-win-x64.msi` (la más común)
+   - `PowerShell-*-win-arm64.msi` (equipos ARM64)
+3. Ejecuta el instalador y completa el asistente.
+4. Cierra y vuelve a abrir la terminal.
+5. Verifica con:
+
+```powershell
+pwsh --version
+```
+
+#### Confirmar que estás en PowerShell 7 y no en 5.1
+
+Abre una sesión con `pwsh` y ejecuta:
+
+```powershell
+$PSVersionTable.PSVersion
+```
+
+El valor `Major` debe ser `7` o superior.
+
+Si quieres comparar, en Windows PowerShell 5.1 suele aparecer `Major = 5`.
+
+#### Referencia oficial
+
+Consulta la documentación de Microsoft Learn: [Install PowerShell 7 on Windows](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows).
+
 ### uv (gestor de paquetes Python)
 
 #### Windows (PowerShell)
 
 ```powershell
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+irm https://astral.sh/uv/install.ps1 | iex
 ```
+
+Ejecuta ese comando dentro de una sesión de **PowerShell 7 (`pwsh`)**.
 
 #### macOS / Linux
 
@@ -130,6 +201,7 @@ Si `specify check` no está disponible o quieres verificar individualmente:
 
 ```bash
 git --version
+pwsh --version
 python --version
 uv --version
 specify version
